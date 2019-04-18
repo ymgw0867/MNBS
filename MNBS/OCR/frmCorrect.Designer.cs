@@ -245,7 +245,7 @@
             // label14
             // 
             this.label14.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label14.Location = new System.Drawing.Point(945, 193);
+            this.label14.Location = new System.Drawing.Point(952, 193);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(23, 25);
             this.label14.TabIndex = 103;
@@ -255,7 +255,7 @@
             // txtShuTl
             // 
             this.txtShuTl.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtShuTl.Location = new System.Drawing.Point(913, 193);
+            this.txtShuTl.Location = new System.Drawing.Point(920, 193);
             this.txtShuTl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtShuTl.MaxLength = 7;
             this.txtShuTl.Name = "txtShuTl";
@@ -268,7 +268,7 @@
             // label15
             // 
             this.label15.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label15.Location = new System.Drawing.Point(809, 192);
+            this.label15.Location = new System.Drawing.Point(816, 192);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(108, 25);
             this.label15.TabIndex = 101;
@@ -303,7 +303,7 @@
             // 
             this.btnRtn.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnRtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRtn.Location = new System.Drawing.Point(816, 631);
+            this.btnRtn.Location = new System.Drawing.Point(817, 631);
             this.btnRtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRtn.Name = "btnRtn";
             this.btnRtn.Size = new System.Drawing.Size(152, 36);
@@ -316,7 +316,7 @@
             // 
             this.btnDel.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnDel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDel.Location = new System.Drawing.Point(815, 96);
+            this.btnDel.Location = new System.Drawing.Point(817, 96);
             this.btnDel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDel.Name = "btnDel";
             this.btnDel.Size = new System.Drawing.Size(152, 40);
@@ -329,7 +329,7 @@
             // 
             this.btnDataMake.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnDataMake.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDataMake.Location = new System.Drawing.Point(815, 141);
+            this.btnDataMake.Location = new System.Drawing.Point(817, 141);
             this.btnDataMake.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDataMake.Name = "btnDataMake";
             this.btnDataMake.Size = new System.Drawing.Size(152, 36);
@@ -342,7 +342,7 @@
             // 
             this.btnErrCheck.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnErrCheck.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnErrCheck.Location = new System.Drawing.Point(815, 56);
+            this.btnErrCheck.Location = new System.Drawing.Point(817, 56);
             this.btnErrCheck.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnErrCheck.Name = "btnErrCheck";
             this.btnErrCheck.Size = new System.Drawing.Size(152, 35);
