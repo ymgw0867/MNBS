@@ -20,6 +20,10 @@ namespace MNBS
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // キャプションにバージョンを追加　2018/04/19
+            this.Text += "  ver " + Application.ProductVersion;
+
+            // 画面サイズ
             Utility.WindowsMaxSize(this, this.Width, this.Height);
             Utility.WindowsMinSize(this, this.Width, this.Height);
 
