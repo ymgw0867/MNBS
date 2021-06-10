@@ -13,22 +13,14 @@ namespace MNBS.OCR
 {
     public partial class frmStaffSelect : Form
     {
-        public frmStaffSelect(List<MsShain> shain)
+        public frmStaffSelect(msShain [] m)
         {
             InitializeComponent();
             _msCode = string.Empty;
-
-            // コメント化 2021/06/10
-            //ms = m;
-
-            // 2021/06/10
-            shains = shain;
+            ms = m;
         }
 
-        //msShain[] ms;
-
-        // 2021/06/10
-        List<MsShain> shains = new List<MsShain>();
+        msShain[] ms;
 
         private void frmStaffSelect_Load(object sender, EventArgs e)
         {
@@ -46,18 +38,18 @@ namespace MNBS.OCR
         private int _usrSel;
 
         // データグリッドビューカラム名
-        private string cCode       = "c1";
-        private string cName       = "c2";
-        private string cKinmuCode  = "c3";
-        private string cKinmuName  = "c4";
+        private string cCode = "c1";
+        private string cName = "c2";
+        private string cKinmuCode = "c3";
+        private string cKinmuName = "c4";
         private string cKinmuBusho = "c5";
-        private string cKKikan     = "c6";
-        private string cKTime      = "c7";
+        private string cKKikan = "c6";
+        private string cKTime = "c7";
         private string cKOrderCode = "c8";
-        private string cTcode      = "c9";
-        private string cStime      = "c10";
-        private string cEtime      = "c11";
-        private string cRest       = "c12";
+        private string cTcode = "c9";
+        private string cStime = "c10";
+        private string cEtime = "c11";
+        private string cRest = "c12";
 
         /// <summary>
         /// スタッフマスターグリッドビューの定義を行います
@@ -85,7 +77,7 @@ namespace MNBS.OCR
                 // 行の高さ
                 tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
                 tempDGV.ColumnHeadersHeight = 20;
-                tempDGV.RowTemplate.Height  = 20;
+                tempDGV.RowTemplate.Height = 20;
 
                 // 全体の高さ
                 tempDGV.Height = 380;
@@ -98,33 +90,33 @@ namespace MNBS.OCR
 
                 //各列幅指定
                 tempDGV.Columns.Add(cKOrderCode, "オーダーコード");
-                tempDGV.Columns.Add(cCode,       "スタッフコード");
-                tempDGV.Columns.Add(cName,       "氏名");
-                tempDGV.Columns.Add(cKinmuCode,  "派遣先コード");
-                tempDGV.Columns.Add(cKinmuName,  "派遣先名");
+                tempDGV.Columns.Add(cCode, "スタッフコード");
+                tempDGV.Columns.Add(cName, "氏名");
+                tempDGV.Columns.Add(cKinmuCode, "派遣先コード");
+                tempDGV.Columns.Add(cKinmuName, "派遣先名");
                 tempDGV.Columns.Add(cKinmuBusho, "部署");
-                tempDGV.Columns.Add(cStime,      "開始時刻");
-                tempDGV.Columns.Add(cEtime,      "終了時刻");
-                tempDGV.Columns.Add(cRest,       "休憩（分）");
-                tempDGV.Columns.Add(cTcode,      "コード");
+                tempDGV.Columns.Add(cStime, "開始時刻");
+                tempDGV.Columns.Add(cEtime, "終了時刻");
+                tempDGV.Columns.Add(cRest, "休憩（分）");
+                tempDGV.Columns.Add(cTcode, "コード");
                 tempDGV.Columns[cTcode].Visible = false;
 
                 tempDGV.Columns[cKOrderCode].Width = 100;
-                tempDGV.Columns[cCode].Width       = 80;
-                tempDGV.Columns[cName].Width       = 120;
-                tempDGV.Columns[cKinmuCode].Width  = 120;
-                tempDGV.Columns[cKinmuName].Width  = 200;
+                tempDGV.Columns[cCode].Width = 80;
+                tempDGV.Columns[cName].Width = 120;
+                tempDGV.Columns[cKinmuCode].Width = 120;
+                tempDGV.Columns[cKinmuName].Width = 200;
                 tempDGV.Columns[cKinmuBusho].Width = 160;
-                tempDGV.Columns[cStime].Width      = 100;
-                tempDGV.Columns[cEtime].Width      = 100;
-                tempDGV.Columns[cRest].Width       = 110;
+                tempDGV.Columns[cStime].Width = 100;
+                tempDGV.Columns[cEtime].Width = 100;
+                tempDGV.Columns[cRest].Width = 110;
 
-                tempDGV.Columns[cCode].DefaultCellStyle.Alignment       = DataGridViewContentAlignment.BottomCenter;
-                tempDGV.Columns[cKinmuCode].DefaultCellStyle.Alignment  = DataGridViewContentAlignment.BottomCenter;
-                tempDGV.Columns[cStime].DefaultCellStyle.Alignment      = DataGridViewContentAlignment.BottomCenter;
-                tempDGV.Columns[cEtime].DefaultCellStyle.Alignment      = DataGridViewContentAlignment.BottomCenter;
+                tempDGV.Columns[cCode].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
+                tempDGV.Columns[cKinmuCode].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
+                tempDGV.Columns[cStime].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
+                tempDGV.Columns[cEtime].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 tempDGV.Columns[cKOrderCode].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
-                tempDGV.Columns[cRest].DefaultCellStyle.Alignment       = DataGridViewContentAlignment.BottomCenter;
+                tempDGV.Columns[cRest].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 
                 // 行ヘッダを表示しない
                 tempDGV.RowHeadersVisible = false;
@@ -174,13 +166,10 @@ namespace MNBS.OCR
             }
         }
 
-        ///--------------------------------------------------------------------------
         /// <summary>
-        ///     スタッフマスタをグリッドビューへ表示します  </summary>
-        /// <param name="tempGrid">
-        ///     データグリッドビューオブジェクト </param>
-        /// 2021/06/10
-        ///--------------------------------------------------------------------------
+        /// スタッフマスタをグリッドビューへ表示します
+        /// </summary>
+        /// <param name="tempGrid">データグリッドビューオブジェクト</param>
         private void GridViewStaffShow(DataGridView tempGrid, string sCode, string sName)
         {
             tempGrid.Rows.Clear();
@@ -189,62 +178,31 @@ namespace MNBS.OCR
             // カーソルを待機状態にする
             this.Cursor = Cursors.WaitCursor;
 
-            foreach (var t in shains.Where(a => a._StaffCode.Contains(sCode) && a._StaffName.Contains(sName)))
+            for (int i = 0; i < ms.Length; i++)
             {
-                tempGrid.Rows.Add();
-                int row = tempGrid.RowCount - 1;
+                if (sCode == string.Empty || ms[i]._StaffCode.Contains(sCode))
+                {
+                    if (sName == string.Empty || ms[i]._StaffName.Contains(sName))
+                    {
+                        tempGrid.Rows.Add();
 
-                tempGrid[cKOrderCode, row].Value = t._OrderCode;
-                tempGrid[cCode,       row].Value = t._StaffCode;
-                tempGrid[cName,       row].Value = t._StaffName;
-                tempGrid[cKinmuCode,  row].Value = t._HaCode;
-                tempGrid[cKinmuName,  row].Value = t._HaName;
-                tempGrid[cKinmuBusho, row].Value = t._BuName;
-                tempGrid[cStime,      row].Value = t._STime;
-                tempGrid[cEtime,      row].Value = t._ETime;
-                tempGrid[cRest,       row].Value = t._Kyukei;
-                tempGrid[cTcode,      row].Value = t._HaCode;
+                        tempGrid[cKOrderCode, tempGrid.RowCount - 1].Value = ms[i]._OrderCode;
+                        tempGrid[cCode, tempGrid.RowCount - 1].Value = ms[i]._StaffCode;
+                        tempGrid[cName, tempGrid.RowCount - 1].Value = ms[i]._StaffName;
+                        tempGrid[cKinmuCode, tempGrid.RowCount - 1].Value = ms[i]._HaCode;
+                        tempGrid[cKinmuName, tempGrid.RowCount - 1].Value = ms[i]._HaName;
+                        tempGrid[cKinmuBusho, tempGrid.RowCount - 1].Value = ms[i]._BuName;
+                        tempGrid[cStime, tempGrid.RowCount - 1].Value = ms[i]._STime;
+                        tempGrid[cEtime, tempGrid.RowCount - 1].Value = ms[i]._ETime;
+                        tempGrid[cRest, tempGrid.RowCount - 1].Value = ms[i]._Kyukei;
+                        tempGrid[cTcode, tempGrid.RowCount - 1].Value = ms[i]._HaCode;
+                    }
+                }
             }
-
             tempGrid.CurrentCell = null;
 
             // カーソルを戻す
             this.Cursor = Cursors.Default;
-        }
-
-        private void GridViewStaffShow_org(DataGridView tempGrid, string sCode, string sName)
-        {
-            //tempGrid.Rows.Clear();
-            //tempGrid.RowCount = 0;
-
-            //// カーソルを待機状態にする
-            //this.Cursor = Cursors.WaitCursor;
-
-            //for (int i = 0; i < ms.Length; i++)
-            //{
-            //    if (sCode == string.Empty || ms[i]._StaffCode.Contains(sCode))
-            //    {
-            //        if (sName == string.Empty || ms[i]._StaffName.Contains(sName))
-            //        {
-            //            tempGrid.Rows.Add();
-
-            //            tempGrid[cKOrderCode, tempGrid.RowCount - 1].Value = ms[i]._OrderCode;
-            //            tempGrid[cCode, tempGrid.RowCount - 1].Value = ms[i]._StaffCode;
-            //            tempGrid[cName, tempGrid.RowCount - 1].Value = ms[i]._StaffName;
-            //            tempGrid[cKinmuCode, tempGrid.RowCount - 1].Value = ms[i]._HaCode;
-            //            tempGrid[cKinmuName, tempGrid.RowCount - 1].Value = ms[i]._HaName;
-            //            tempGrid[cKinmuBusho, tempGrid.RowCount - 1].Value = ms[i]._BuName;
-            //            tempGrid[cStime, tempGrid.RowCount - 1].Value = ms[i]._STime;
-            //            tempGrid[cEtime, tempGrid.RowCount - 1].Value = ms[i]._ETime;
-            //            tempGrid[cRest, tempGrid.RowCount - 1].Value = ms[i]._Kyukei;
-            //            tempGrid[cTcode, tempGrid.RowCount - 1].Value = ms[i]._HaCode;
-            //        }
-            //    }
-            //}
-            //tempGrid.CurrentCell = null;
-
-            //// カーソルを戻す
-            //this.Cursor = Cursors.Default;
         }
 
         /// <summary>

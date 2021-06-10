@@ -191,16 +191,16 @@ namespace MNBS.Common
         }
     }
 
-    public class MsShain
+    public class msShain
     {
         public string _OrderCode { get; set; }  // オーダーコード
-        public string _HaCode    { get; set; }  // 派遣先コード
-        public string _HaName    { get; set; }  // 派遣先名
-        public string _BuName    { get; set; }  // 派遣先部署名
+        public string _HaCode { get; set; }     // 派遣先コード
+        public string _HaName { get; set; }     // 派遣先名
+        public string _BuName { get; set; }     // 派遣先部署名
         public string _StaffCode { get; set; }  // スタッフコード
         public string _StaffName { get; set; }  // スタッフ名
-        public string _STime     { get; set; }  // 開始時間
-        public string _ETime     { get; set; }  // 終了時間
-        public string _Kyukei    { get; set; }  // 休憩時間
+        public string _STime { get; set; }      // 開始時間
+        public string _ETime { get; set; }      // 終了時間
+        public string _Kyukei { get; set; }     // 休憩時間
     }
 }

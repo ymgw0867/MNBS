@@ -47,7 +47,7 @@ namespace MNBS.OCR
         }
 
         //終了ステータス
-        const string END_BUTTON   = "btn";
+        const string END_BUTTON = "btn";
         const string END_MAKEDATA = "data";
         const string END_CONTOROL = "close";
 
@@ -58,21 +58,21 @@ namespace MNBS.OCR
         private string _InPath;
 
         // データグリッドビューカラム定義
-        private string cDay    = "col1";
-        private string cWeek   = "col2";
+        private string cDay = "col1";
+        private string cWeek = "col2";
         //private string cMark = "col3";
-        private string cSH     = "col4";
-        private string cS      = "col5";
-        private string cSM     = "col6";
-        private string cEH     = "col7";
-        private string cE      = "col8";
-        private string cEM     = "col9";
-        private string cKyuka  = "col10";
+        private string cSH = "col4";
+        private string cS = "col5";
+        private string cSM = "col6";
+        private string cEH = "col7";
+        private string cE = "col8";
+        private string cEM = "col9";
+        private string cKyuka = "col10";
         private string cKyukei = "col11";
         //private string cHiru1 = "col12";
         //private string cHiru2 = "col13";
         private string cTeisei = "col14";
-        private string cID     = "col15";
+        private string cID = "col15";
 
         // OCRDATAクラス
         OCRData[] clsOCR;
@@ -81,9 +81,7 @@ namespace MNBS.OCR
         private int _cI;
 
         // 社員マスタークラスインスタンス
-        //msShain[] ms;
-
-        List<MsShain> ms = new List<MsShain>();
+        msShain[] ms;
 
         /// <summary>
         /// データグリッドビューの定義を行います
@@ -111,7 +109,7 @@ namespace MNBS.OCR
                 // 行の高さ
                 tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
                 tempDGV.ColumnHeadersHeight = 19;
-                tempDGV.RowTemplate.Height  = 19;
+                tempDGV.RowTemplate.Height = 19;
 
                 // 全体の高さ
                 tempDGV.Height = 610;
@@ -236,35 +234,12 @@ namespace MNBS.OCR
                     {
                         DataGridViewTextBoxColumn col = (DataGridViewTextBoxColumn)c;
 
-                        if (c.Name == cSH)
-                        {
-                            col.MaxInputLength = 2;
-                        }
-
-                        if (c.Name == cSM)
-                        {
-                            col.MaxInputLength = 2;
-                        }
-
-                        if (c.Name == cEH)
-                        {
-                            col.MaxInputLength = 2;
-                        }
-
-                        if (c.Name == cEM)
-                        {
-                            col.MaxInputLength = 2;
-                        }
-
-                        if (c.Name == cKyuka)
-                        {
-                            col.MaxInputLength = 1;
-                        }
-
-                        if (c.Name == cKyukei)
-                        {
-                            col.MaxInputLength = 3;
-                        }
+                        if (c.Name == cSH) col.MaxInputLength = 2;
+                        if (c.Name == cSM) col.MaxInputLength = 2;
+                        if (c.Name == cEH) col.MaxInputLength = 2;
+                        if (c.Name == cEM) col.MaxInputLength = 2;
+                        if (c.Name == cKyuka) col.MaxInputLength = 1;
+                        if (c.Name == cKyukei) col.MaxInputLength = 3;
                     }
                 }
 
@@ -419,19 +394,17 @@ namespace MNBS.OCR
             }
         }
 
-        ///------------------------------------------------------------------------
         /// <summary>
-        ///     スタッフCSVデータを社員クラスリストへ取り込む </summary>
-        ///     
-        ///  社員クラスリストに変更 2021/06/10
-        ///------------------------------------------------------------------------
+        /// スタッフCSVデータを社員クラスへ取り込む
+        /// </summary>
         private void MstCsvDataToCls(string InPath)
         {
             //CSVファイルがなければ終了
-            if (!System.IO.File.Exists(InPath))
-            {
-                return;
-            }
+            if (!System.IO.File.Exists(InPath)) return;
+
+            ////CSVファイル数を取得
+            //string ss = System.IO.Path.GetDirectoryName(InPath);
+            //var inCsv = System.IO.Directory.GetFileSystemEntries(ss, "*.csv");
 
             //オーナーフォームを無効にする
             this.Enabled = false;
@@ -442,20 +415,22 @@ namespace MNBS.OCR
             frmP.Show();
 
             int cCnt = 0;
-            int cTotal;
+            int cTotal = 0;
 
             try
             {
-                // CSVデータを全行取得
-                var stBuffer = System.IO.File.ReadAllLines(InPath, Encoding.Default);
-
                 // ＣＳＶデータの行数を取得します
-                cTotal = stBuffer.Length;
+                foreach (var stBuffer in System.IO.File.ReadAllLines(InPath, Encoding.Default))
+                {
+                    cTotal++;
+                }
 
-                bool hd = true;
+                // CSVデータを社員クラスへ取込む
+                bool hd = true; 
 
                 // CSVファイルを１行ずつインポート
-                foreach (var item in stBuffer)
+                //var s = System.IO.File.ReadAllLines(files, Encoding.Default);
+                foreach (var stBuffer in System.IO.File.ReadAllLines(InPath, Encoding.Default))
                 {
                     // 最初の行はヘッダのため読み飛ばし
                     if (hd)
@@ -465,7 +440,7 @@ namespace MNBS.OCR
                     }
                     
                     // カンマ区切りで分割して配列に格納する
-                    string[] stCSV = item.Split(',');
+                    string[] stCSV = stBuffer.Split(',');
 
                     // 正規のフォーマットのときインポート
                     if (stCSV.Length > 83)
@@ -473,39 +448,26 @@ namespace MNBS.OCR
                         // 件数カウント
                         cCnt++;
 
+                        // 社員クラスインスタンス
+                        if (cCnt > 1) Array.Resize(ref ms, cCnt);
+                        else if (cCnt == 1) ms = new msShain[1];
+
+                        ms[cCnt - 1] = new msShain();
+
                         // プログレスバー表示
                         frmP.Text = "スタッフＣＳＶデータロード中　" + cCnt.ToString();
                         frmP.progressValue = cCnt * 100 / cTotal;
                         frmP.ProgressStep();
 
-                        MsShain shain = new MsShain
-                        {
-                            // 旧（現）Staff2000
-                            //_OrderCode = stCSV[0].Replace(@"""", string.Empty),
-                            //_HaCode    = stCSV[7].Replace(@"""", string.Empty),
-                            //_HaName    = stCSV[8].Replace(@"""", string.Empty),
-                            //_BuName    = stCSV[9].Replace(@"""", string.Empty),
-                            //_StaffCode = stCSV[33].Replace(@"""", string.Empty),
-                            //_StaffName = stCSV[34].Replace(@"""", string.Empty),
-                            //_STime     = stCSV[79].Replace(@"""", string.Empty),
-                            //_ETime     = stCSV[80].Replace(@"""", string.Empty),
-                            //_Kyukei    = stCSV[83].Replace(@"""", string.Empty)
-
-
-                            // Staff-V
-                            _OrderCode = stCSV[0].Replace(@"""", string.Empty),
-                            _HaCode    = stCSV[7].Replace(@"""", string.Empty),
-                            _HaName    = stCSV[8].Replace(@"""", string.Empty),
-                            // 要確認_BuName = stCSV[9].Replace(@"""", string.Empty), 
-                            _StaffCode = stCSV[14].Replace(@"""", string.Empty),
-                            _StaffName = stCSV[15].Replace(@"""", string.Empty),
-                            _STime     = stCSV[156].Replace(@"""", string.Empty),
-                            _ETime     = stCSV[157].Replace(@"""", string.Empty),
-                            _Kyukei    = stCSV[160].Replace(@"""", string.Empty)
-                        };
-
-                        // Listへ追加
-                        ms.Add(shain);
+                        ms[cCnt - 1]._OrderCode = stCSV[0].Replace(@"""", string.Empty);
+                        ms[cCnt - 1]._HaCode = stCSV[7].Replace(@"""", string.Empty);
+                        ms[cCnt - 1]._HaName = stCSV[8].Replace(@"""", string.Empty);
+                        ms[cCnt - 1]._BuName = stCSV[9].Replace(@"""", string.Empty);
+                        ms[cCnt - 1]._StaffCode = stCSV[33].Replace(@"""", string.Empty);
+                        ms[cCnt - 1]._StaffName = stCSV[34].Replace(@"""", string.Empty);
+                        ms[cCnt - 1]._STime = stCSV[79].Replace(@"""", string.Empty);
+                        ms[cCnt - 1]._ETime = stCSV[80].Replace(@"""", string.Empty);
+                        ms[cCnt - 1]._Kyukei = stCSV[83].Replace(@"""", string.Empty);
                     }
                 }
             }
@@ -527,104 +489,6 @@ namespace MNBS.OCR
 
             // オーナーのフォームを有効に戻す
             this.Enabled = true;
-        }
-
-        /// <summary>
-        /// スタッフCSVデータを社員クラスへ取り込む
-        /// </summary>
-        private void MstCsvDataToCls_org(string InPath)
-        {
-            // 以下、コメント化  2021/06/10
-            ////CSVファイルがなければ終了
-            //if (!System.IO.File.Exists(InPath)) return;
-
-            //////CSVファイル数を取得
-            ////string ss = System.IO.Path.GetDirectoryName(InPath);
-            ////var inCsv = System.IO.Directory.GetFileSystemEntries(ss, "*.csv");
-
-            ////オーナーフォームを無効にする
-            //this.Enabled = false;
-
-            ////プログレスバーフォームを表示する
-            //frmPrg frmP = new frmPrg();
-            //frmP.Owner = this;
-            //frmP.Show();
-
-            //int cCnt = 0;
-            //int cTotal = 0;
-
-            //try
-            //{
-            //    // ＣＳＶデータの行数を取得します
-            //    foreach (var stBuffer in System.IO.File.ReadAllLines(InPath, Encoding.Default))
-            //    {
-            //        cTotal++;
-            //    }
-
-            //    // CSVデータを社員クラスへ取込む
-            //    bool hd = true;
-
-            //    // CSVファイルを１行ずつインポート
-            //    //var s = System.IO.File.ReadAllLines(files, Encoding.Default);
-            //    foreach (var stBuffer in System.IO.File.ReadAllLines(InPath, Encoding.Default))
-            //    {
-            //        // 最初の行はヘッダのため読み飛ばし
-            //        if (hd)
-            //        {
-            //            hd = false;
-            //            continue;
-            //        }
-
-            //        // カンマ区切りで分割して配列に格納する
-            //        string[] stCSV = stBuffer.Split(',');
-
-            //        // 正規のフォーマットのときインポート
-            //        if (stCSV.Length > 83)
-            //        {
-            //            // 件数カウント
-            //            cCnt++;
-
-            //            // 社員クラスインスタンス
-            //            if (cCnt > 1) Array.Resize(ref ms, cCnt);
-            //            else if (cCnt == 1) ms = new msShain[1];
-
-            //            ms[cCnt - 1] = new msShain();
-
-            //            // プログレスバー表示
-            //            frmP.Text = "スタッフＣＳＶデータロード中　" + cCnt.ToString();
-            //            frmP.progressValue = cCnt * 100 / cTotal;
-            //            frmP.ProgressStep();
-
-            //            ms[cCnt - 1]._OrderCode = stCSV[0].Replace(@"""", string.Empty);
-            //            ms[cCnt - 1]._HaCode = stCSV[7].Replace(@"""", string.Empty);
-            //            ms[cCnt - 1]._HaName = stCSV[8].Replace(@"""", string.Empty);
-            //            ms[cCnt - 1]._BuName = stCSV[9].Replace(@"""", string.Empty);
-            //            ms[cCnt - 1]._StaffCode = stCSV[33].Replace(@"""", string.Empty);
-            //            ms[cCnt - 1]._StaffName = stCSV[34].Replace(@"""", string.Empty);
-            //            ms[cCnt - 1]._STime = stCSV[79].Replace(@"""", string.Empty);
-            //            ms[cCnt - 1]._ETime = stCSV[80].Replace(@"""", string.Empty);
-            //            ms[cCnt - 1]._Kyukei = stCSV[83].Replace(@"""", string.Empty);
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message + cCnt.ToString(), "スタッフＣＳＶインポート処理", MessageBoxButtons.OK);
-            //}
-            //finally
-            //{
-            //    //////1秒間待機する（時間のかかる処理があるものとする）
-            //    ////System.Threading.Thread.Sleep(5000);
-            //}
-
-            //// いったんオーナーをアクティブにする
-            //this.Activate();
-
-            //// 進行状況ダイアログを閉じる
-            //frmP.Close();
-
-            //// オーナーのフォームを有効に戻す
-            //this.Enabled = true;
         }
 
         /// <summary>
@@ -738,9 +602,7 @@ namespace MNBS.OCR
 
                     // MDBへの接続を解除する　2013/11/05
                     if (clsOCR[cCnt - 1].sCom.Connection.State == ConnectionState.Open)
-                    {
                         clsOCR[cCnt - 1].sCom.Connection.Close();
-                    }
                 }
 
                 ////CSVファイルを削除する
@@ -784,16 +646,12 @@ namespace MNBS.OCR
             lblErrMsg.Text = string.Empty;
         }
 
-        ///--------------------------------------------------------------------
         /// <summary>
-        ///     データ表示  </summary>
-        /// <param name="sIx">
-        ///     表示インデックス </param>
-        /// <param name="rRec">
-        ///     OCRDATAクラス </param>
-        /// <param name="dgv">
-        ///     DataGridViewオブジェクト </param>
-        ///--------------------------------------------------------------------
+        /// データ表示
+        /// </summary>
+        /// <param name="sIx">表示インデックス</param>
+        /// <param name="rRec">OCRDATAクラス</param>
+        /// <param name="dgv">DataGridViewオブジェクト</param>
         private void DataShow(int sIx, OCRData[] rRec, DataGridView dgv)
         {
             // 出勤日数合計
@@ -811,17 +669,16 @@ namespace MNBS.OCR
             try
             {
                 // ヘッダ情報
-                txtYear.Text      = Utility.EmptytoZero(rRec[sIx]._Year);
-                txtMonth.Text     = Utility.EmptytoZero(rRec[sIx]._Month);
-                txtNo.Text        = Utility.EmptytoZero(rRec[sIx]._StaffCode);
+                txtYear.Text = Utility.EmptytoZero(rRec[sIx]._Year);
+                txtMonth.Text = Utility.EmptytoZero(rRec[sIx]._Month);
+                txtNo.Text = Utility.EmptytoZero(rRec[sIx]._StaffCode);
                 txtOrderCode.Text = Utility.EmptytoZero(rRec[sIx]._OrderCode);
-                txtShuTl.Text     = Utility.EmptytoZero(rRec[sIx]._ShuDays);
-
+                txtShuTl.Text = Utility.EmptytoZero(rRec[sIx]._ShuDays);
                 global.pblImageFile = rRec[sIx]._ImageName;
                                 
-                lblName.Text        = string.Empty;
+                lblName.Text = string.Empty;
                 txtShozokuCode.Text = string.Empty;
-                lblShozoku.Text     = string.Empty;
+                lblShozoku.Text = string.Empty;
 
                 // スタッフ情報取得
                 GetStaffData(rRec[sIx]._StaffCode);
@@ -836,11 +693,11 @@ namespace MNBS.OCR
                     // データグリッド最下行まで達した（月末日以降のデータは強制消去する）
                     if (dgv.Rows.Count <= r)
                     {
-                        rRec[sIx].itm[i]._Sh     = string.Empty;
-                        rRec[sIx].itm[i]._Sm     = string.Empty;
-                        rRec[sIx].itm[i]._eh     = string.Empty;
-                        rRec[sIx].itm[i]._em     = string.Empty;
-                        rRec[sIx].itm[i]._Kyuka  = string.Empty;
+                        rRec[sIx].itm[i]._Sh = string.Empty;
+                        rRec[sIx].itm[i]._Sm = string.Empty;
+                        rRec[sIx].itm[i]._eh = string.Empty;
+                        rRec[sIx].itm[i]._em = string.Empty;
+                        rRec[sIx].itm[i]._Kyuka = string.Empty;
                         rRec[sIx].itm[i]._Kyukei = string.Empty;
                         rRec[sIx].itm[i]._teisei = string.Empty;
                     }
@@ -852,20 +709,14 @@ namespace MNBS.OCR
                         // ChangeValueイベント処理実施
                         global.dg1ChabgeValueStatus = true;
 
-                        if (rRec[sIx].itm[i]._teisei == global.FLGON)
-                        {
-                            dgv[cTeisei, r].Value = true;
-                        }
-                        else
-                        {
-                            dgv[cTeisei, r].Value = false;
-                        }
+                        if (rRec[sIx].itm[i]._teisei == global.FLGON) dgv[cTeisei, r].Value = true;
+                        else dgv[cTeisei, r].Value = false;
 
-                        dgv[cKyuka, r].Value  = rRec[sIx].itm[i]._Kyuka;
-                        dgv[cSH, r].Value     = rRec[sIx].itm[i]._Sh;
-                        dgv[cSM, r].Value     = rRec[sIx].itm[i]._Sm;
-                        dgv[cEH, r].Value     = rRec[sIx].itm[i]._eh;
-                        dgv[cEM, r].Value     = rRec[sIx].itm[i]._em;
+                        dgv[cKyuka, r].Value = rRec[sIx].itm[i]._Kyuka;
+                        dgv[cSH, r].Value = rRec[sIx].itm[i]._Sh;
+                        dgv[cSM, r].Value = rRec[sIx].itm[i]._Sm;
+                        dgv[cEH, r].Value = rRec[sIx].itm[i]._eh;
+                        dgv[cEM, r].Value = rRec[sIx].itm[i]._em;
                         dgv[cKyukei, r].Value = rRec[sIx].itm[i]._Kyukei;
 
                         // ChangeValueイベント処理回避
@@ -890,23 +741,23 @@ namespace MNBS.OCR
                 ShowImage(_InPath + global.pblImageFile);
 
                 // ヘッダ情報
-                txtYear.ReadOnly        = false;
-                txtMonth.ReadOnly       = false;
+                txtYear.ReadOnly = false;
+                txtMonth.ReadOnly = false;
                 txtShozokuCode.ReadOnly = false;
-                txtNo.ReadOnly          = false;
+                txtNo.ReadOnly = false;
 
                 //最初のレコード
                 if (sIx == 0)
                 {
                     btnBefore.Enabled = false;
-                    btnFirst.Enabled  = false;
+                    btnFirst.Enabled = false;
                 }
 
                 //最終レコード
                 if ((sIx + 1) == rRec.Length)
                 {
                     btnNext.Enabled = false;
-                    btnEnd.Enabled  = false;
+                    btnEnd.Enabled = false;
                 }
 
                 //カレントセル選択状態としない
@@ -915,7 +766,7 @@ namespace MNBS.OCR
                 // その他のボタンを有効とする
                 btnErrCheck.Enabled = true;
                 btnDataMake.Enabled = true;
-                btnDel.Enabled      = true;
+                btnDel.Enabled = true;
 
                 // データグリッドビュー編集
                 dg1.ReadOnly = false;
@@ -933,68 +784,52 @@ namespace MNBS.OCR
             }
         }
 
-        ///---------------------------------------------------------------
         /// <summary>
-        ///     スタッフ情報取得  </summary>
-        /// <param name="staffCode">
-        ///     スタッフコード </param>
-        ///     
-        ///  2021/06/10
-        ///---------------------------------------------------------------
+        /// スタッフ情報取得
+        /// </summary>
+        /// <param name="staffCode">スタッフコード</param>
         private void GetStaffData(string staffCode)
         {
-            foreach (var t in ms.Where(a => a._StaffCode == staffCode))
+            for (int i = 0; i < ms.Length; i++)
             {
-                lblName.Text        = t._StaffName;
-                txtShozokuCode.Text = t._HaCode;
-                lblShozoku.Text     = t._HaName;
+                if (ms[i]._StaffCode == staffCode)
+                {
+                    lblName.Text = ms[i]._StaffName;
+                    txtShozokuCode.Text = ms[i]._HaCode;
+                    lblShozoku.Text = ms[i]._HaName;
+                    break;
+                }
             }
         }
-
-        private void GetStaffData_org(string staffCode)
-        {
-            // 以下、コメント化 2021/06/10
-            //for (int i = 0; i < ms.Length; i++)
-            //{
-            //    if (ms[i]._StaffCode == staffCode)
-            //    {
-            //        lblName.Text = ms[i]._StaffName;
-            //        txtShozokuCode.Text = ms[i]._HaCode;
-            //        lblShozoku.Text = ms[i]._HaName;
-            //        break;
-            //    }
-            //}
-        }
-
 
         //表示初期化
         private void dataGridInitial(DataGridView dgv)
         {
-            txtYear.Text             = string.Empty;
-            txtMonth.Text            = string.Empty;
-            txtNo.Text               = string.Empty;
-            txtShozokuCode.Text      = string.Empty;
-            txtOrderCode.Text        = string.Empty;
-            txtShuTl.Text            = string.Empty;
+            txtYear.Text = string.Empty;
+            txtMonth.Text = string.Empty;
+            txtNo.Text = string.Empty;
+            txtShozokuCode.Text = string.Empty;
+            txtOrderCode.Text = string.Empty;
+            txtShuTl.Text = string.Empty;
 
-            lblName.Text             = string.Empty;
-            lblShozoku.Text          = string.Empty;
+            lblName.Text = string.Empty;
+            lblShozoku.Text = string.Empty;
 
-            txtYear.BackColor        = Color.Empty;
-            txtMonth.BackColor       = Color.Empty;
-            txtNo.BackColor          = Color.Empty;
+            txtYear.BackColor = Color.Empty;
+            txtMonth.BackColor = Color.Empty;
+            txtNo.BackColor = Color.Empty;
             txtShozokuCode.BackColor = Color.Empty;
-            txtOrderCode.BackColor   = Color.Empty;
-            txtShuTl.BackColor       = Color.Empty;
+            txtOrderCode.BackColor = Color.Empty;
+            txtShuTl.BackColor = Color.Empty;
 
-            txtYear.ForeColor        = Color.Navy;
-            txtMonth.ForeColor       = Color.Navy;
-            txtNo.ForeColor          = Color.Navy;
+            txtYear.ForeColor = Color.Navy;
+            txtMonth.ForeColor = Color.Navy;
+            txtNo.ForeColor = Color.Navy;
             txtShozokuCode.ForeColor = Color.Navy;
-            txtOrderCode.ForeColor   = Color.Navy;
-            txtShuTl.ForeColor       = Color.Navy;
+            txtOrderCode.ForeColor = Color.Navy;
+            txtShuTl.ForeColor = Color.Navy;
 
-            dgv.RowsDefaultCellStyle.ForeColor      = Color.Navy;       //テキストカラーの設定
+            dgv.RowsDefaultCellStyle.ForeColor = Color.Navy;       //テキストカラーの設定
             dgv.DefaultCellStyle.SelectionBackColor = Color.Empty;
             dgv.DefaultCellStyle.SelectionForeColor = Color.Navy;
 
@@ -1004,23 +839,21 @@ namespace MNBS.OCR
             lblNoImage.Visible = false;
         }
 
-        ///---------------------------------------------------------------------
         /// <summary>
-        ///     データ表示エリア背景色初期化  </summary>
-        /// <param name="dgv">
-        ///     データグリッドビューオブジェクト</param>
-        ///---------------------------------------------------------------------
+        /// データ表示エリア背景色初期化
+        /// </summary>
+        /// <param name="dgv">データグリッドビューオブジェクト</param>
         private void dsColorInitial(DataGridView dgv)
         {
             // CellChangeValueイベント発生回避する
             global.dg1ChabgeValueStatus = false;
 
-            txtYear.BackColor        = Color.White;
-            txtMonth.BackColor       = Color.White;
-            txtNo.BackColor          = Color.White;
+            txtYear.BackColor = Color.White;
+            txtMonth.BackColor = Color.White;
+            txtNo.BackColor = Color.White;
             txtShozokuCode.BackColor = Color.White;
-            txtOrderCode.BackColor   = Color.White;
-            txtShuTl.BackColor       = Color.White;
+            txtOrderCode.BackColor = Color.White;
+            txtShuTl.BackColor = Color.White;
 
             // 行数
             dgv.RowCount = 0;
@@ -1070,6 +903,7 @@ namespace MNBS.OCR
                     // 時分区切り記号
                     dgv[cS, i].Value = ":";
                     dgv[cE, i].Value = ":";
+
                 }
             }
             //sCom.Connection.Close();
@@ -1745,14 +1579,11 @@ namespace MNBS.OCR
             return eCheck;
         }
 
-        ///---------------------------------------------------------------------------
         /// <summary>
-        ///     項目別エラーチェック  </summary>
-        /// <param name="i">
-        ///     OCRDATAクラスインデックス </param>
-        /// <returns>
-        ///     エラーなし：true, エラー有り：false</returns>
-        ///---------------------------------------------------------------------------
+        /// 項目別エラーチェック
+        /// </summary>
+        /// <param name="i">OCRDATAクラスインデックス</param>
+        /// <returns>エラーなし：true, エラー有り：false</returns>
         private Boolean ErrCheckData(int i)
         {
             // 記入日数
@@ -1876,10 +1707,20 @@ namespace MNBS.OCR
             //    return false;
             //}
 
-            // 個人番号マスター登録検査：2021/06/10
-            if (!ms.Any(a => a._StaffCode == clsOCR[i]._StaffCode))
+            //個人番号マスター登録検査
+            bool rHas = false;
+
+            for (int iX = 0; iX < ms.Length; iX++)
             {
-                // 該当するスタッフコードが存在しないとき
+                if (ms[iX]._StaffCode == clsOCR[i]._StaffCode)
+                {
+                    rHas = true;
+                    break;
+                }
+            }
+
+            if (!rHas)
+            {
                 global.errID = i;
                 global.errNumber = global.eShainNo;
                 global.errRow = 0;
@@ -1887,30 +1728,9 @@ namespace MNBS.OCR
                 return false;
             }
 
-            // 以下、コメント化 2021/06/10
-            //bool rHas = false;
-            //// 個人番号マスター登録検査
-            //for (int iX = 0; iX < ms.Length; iX++)
-            //{
-            //    if (ms[iX]._StaffCode == clsOCR[i]._StaffCode)
-            //    {
-            //        rHas = true;
-            //        break;
-            //    }
-            //}
-
-            //if (!rHas)
-            //{
-            //    global.errID = i;
-            //    global.errNumber = global.eShainNo;
-            //    global.errRow = 0;
-            //    global.errMsg = "個人番号がマスターに存在しません";
-            //    return false;
-            //}
-
             // オーダーコード
             // 数字以外のとき
-            if (!Utility.NumericCheck(clsOCR[i]._OrderCode))
+            if (Utility.NumericCheck(clsOCR[i]._OrderCode) == false)
             {
                 global.errID = i;
                 global.errNumber = global.eOrderCode;
@@ -1920,8 +1740,22 @@ namespace MNBS.OCR
                 return false;
             }
 
-            // オーダーコードとスタッフコードの組み合わせを検索：2021/06/10
-            if (!ms.Any(a => a._StaffCode == clsOCR[i]._StaffCode && a._OrderCode == clsOCR[i]._OrderCode))
+            rHas = false;
+
+            // スタッフマスターを検索
+            for (int iX = 0; iX < ms.Length; iX++)
+            {
+                if (ms[iX]._StaffCode == clsOCR[i]._StaffCode)
+                {
+                    if (ms[iX]._OrderCode == clsOCR[i]._OrderCode)
+                    {
+                        rHas = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!rHas)
             {
                 global.errID = i;
                 global.errNumber = global.eOrderCode;
@@ -1929,31 +1763,6 @@ namespace MNBS.OCR
                 global.errMsg = "オーダーコードとスタッフコードの組み合わせが一致しません。";
                 return false;
             }
-
-            // 以下、コメント化 2021/06/10
-            //rHas = false;
-
-            //// スタッフマスターを検索
-            //for (int iX = 0; iX < ms.Length; iX++)
-            //{
-            //    if (ms[iX]._StaffCode == clsOCR[i]._StaffCode)
-            //    {
-            //        if (ms[iX]._OrderCode == clsOCR[i]._OrderCode)
-            //        {
-            //            rHas = true;
-            //            break;
-            //        }
-            //    }
-            //}
-
-            //if (!rHas)
-            //{
-            //    global.errID = i;
-            //    global.errNumber = global.eOrderCode;
-            //    global.errRow = 0;
-            //    global.errMsg = "オーダーコードとスタッフコードの組み合わせが一致しません。";
-            //    return false;
-            //}
 
             //日付別データ
             for (int x = 0; x < global._MULTIGYO; x++)
