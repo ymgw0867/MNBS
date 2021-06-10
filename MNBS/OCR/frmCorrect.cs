@@ -468,7 +468,7 @@ namespace MNBS.OCR
                     string[] stCSV = item.Split(',');
 
                     // 正規のフォーマットのときインポート
-                    if (stCSV.Length > 83)
+                    if (stCSV.Length > 160)
                     {
                         // 件数カウント
                         cCnt++;
