@@ -480,19 +480,20 @@ namespace MNBS.OCR
 
                         MsShain shain = new MsShain
                         {
-                            // 旧（現）Staff2000
+                            // 2021/06/25 コメント化
+                            //// 旧（現）Staff2000
                             //_OrderCode = stCSV[0].Replace(@"""", string.Empty),
-                            //_HaCode    = stCSV[7].Replace(@"""", string.Empty),
-                            //_HaName    = stCSV[8].Replace(@"""", string.Empty),
-                            //_BuName    = stCSV[9].Replace(@"""", string.Empty),
+                            //_HaCode = stCSV[7].Replace(@"""", string.Empty),
+                            //_HaName = stCSV[8].Replace(@"""", string.Empty),
+                            //_BuName = stCSV[9].Replace(@"""", string.Empty),
                             //_StaffCode = stCSV[33].Replace(@"""", string.Empty),
                             //_StaffName = stCSV[34].Replace(@"""", string.Empty),
-                            //_STime     = stCSV[79].Replace(@"""", string.Empty),
-                            //_ETime     = stCSV[80].Replace(@"""", string.Empty),
-                            //_Kyukei    = stCSV[83].Replace(@"""", string.Empty)
+                            //_STime = stCSV[79].Replace(@"""", string.Empty),
+                            //_ETime = stCSV[80].Replace(@"""", string.Empty),
+                            //_Kyukei = stCSV[83].Replace(@"""", string.Empty)
 
 
-                            // Staff-V
+                            // Staff-V 2021/06/10
                             _OrderCode = stCSV[0].Replace(@"""", string.Empty),
                             _HaCode    = stCSV[7].Replace(@"""", string.Empty),
                             _HaName    = stCSV[8].Replace(@"""", string.Empty),
